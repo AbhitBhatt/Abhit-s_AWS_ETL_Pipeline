@@ -4,6 +4,10 @@ import pandas as pd
 import io
 from datetime import datetime
 
+
+# ----------------------------------------
+# 🔄 Flatten JSON: Convert nested structure to tabular using pandas
+# ----------------------------------------
 def flatten(data):
     orders_data=[]
     for order in data:
@@ -26,37 +30,59 @@ def flatten(data):
     df_orders = pd.DataFrame(orders_data)
     return df_orders
 
+# ----------------------------------------
+# 🚀 Lambda Handler: Triggered when a new file is uploaded to S3
+# ----------------------------------------
+
 def lambda_handler(event, context):
-    # TODO implement
+
+# 📥 Read JSON file from S3   
+
     bucket_name=event['Records'][0]['s3']['bucket']['name']
     file_name=event['Records'][0]['s3']['object']['key']
 
     s3=boto3.client('s3')
     response=s3.get_object(Bucket=bucket_name,Key=file_name)
 
-    # Read and parse json content
+# Parse the JSON content
+
     content=response['Body'].read().decode('utf-8')
     data=json.loads(content)
+
+# ----------------------------------------
+# 🧾 Flatten JSON to tabular format
+# ----------------------------------------
+
     df=flatten(data)
     
-     # in-memory binary buffer to hold data like a file, 
-            # but without writing to disk.
+# 📦 Convert DataFrame to Parquet format (in-memory)
+
     parquet_buffer = io.BytesIO()
     df.to_parquet(parquet_buffer, index=False, engine='pyarrow')
+
+# Generate unique file name using timestamp
 
     now = datetime.now()
     timestamp = now.strftime("%Y%m%d_%H%M%S")
 
     key_staging=f'ordders_parquet/orders_ETL_{timestamp}.parquet'
     
+# ----------------------------------------
+# 💾 Upload Parquet file to target S3 folder
+# ----------------------------------------
 
-    s3.put_object(Bucket=bucket_name, Key=key_staging
+s3.put_object(Bucket=bucket_name, Key=key_staging
                     , Body=parquet_buffer.getvalue())
+
+# ----------------------------------------
+# 🧠 Start AWS Glue Crawler to update metadata
+# ----------------------------------------
 
     crawler_name='abhit_crawler1'
     glue=boto3.client('glue')
     response=glue.start_crawler(Name=crawler_name)
 
+# ✅ Lambda response
     return {
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')
