@@ -3,8 +3,8 @@ This project demonstrates a serverless ETL pipeline using AWS Lambda, S3, Glue, 
 
 # Architecture Overview
 S3 (orders_json_inc) ──▶ Lambda ──▶ S3 (orders_parquet)
-                                  │
-                                  └─▶ Glue Crawler ──▶ Glue Catalog ──▶ Athena
+                                  
+                                  ──▶ Glue Crawler ──▶ Glue Catalog ──▶ Athena
 
 # S3 Folder Structure
 
