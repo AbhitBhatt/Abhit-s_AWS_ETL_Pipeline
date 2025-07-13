@@ -1,5 +1,9 @@
-# Project Overview
+Project Overview
 
-This project showcases a serverless ETL pipeline built using AWS services to automate the transformation and analysis of order data. The pipeline begins with raw JSON files stored in an Amazon S3 bucket, which are automatically processed by an AWS Lambda function. The function flattens the nested JSON structure and converts it into Parquet format, which is more efficient for querying and storage.
+This project showcases a serverless ETL pipeline built using AWS services to automate the transformation and analysis of order data.
+The pipeline begins with raw JSON files stored in an Amazon S3 bucket, which are automatically processed by an AWS Lambda function. 
+The function flattens the nested JSON structure and converts it into Parquet format, which is more efficient for querying and storage.
 
-The transformed Parquet files are then cataloged using AWS Glue, where a crawler scans and updates metadata in a Glue database. Finally, the processed data is accessible via Amazon Athena, enabling real-time SQL querying on the dataset. The pipeline is fully automated and scalable, making it ideal for handling continuously arriving JSON data in a structured and queryable way.
+The transformed Parquet files are then cataloged using AWS Glue, where a crawler scans and updates metadata in a Glue database.
+Finally, the processed data is accessible via Amazon Athena, enabling real-time SQL querying on the dataset. 
+The pipeline is fully automated and scalable, making it ideal for handling continuously arriving JSON data in a structured and queryable way.
