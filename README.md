@@ -6,7 +6,7 @@ S3 (orders_json_inc) ──▶ Lambda ──▶ S3 (orders_parquet) ──▶ Gl
                                   
                                   
 
-## S3 Folder Structure
+### S3 Folder Structure
 
     s3://abhit-etl-project/orders_json_inc/
     Contains incoming JSON files with order data.
@@ -14,7 +14,7 @@ S3 (orders_json_inc) ──▶ Lambda ──▶ S3 (orders_parquet) ──▶ Gl
     s3://abhit-etl-project/orders_parquet/
     Stores Parquet-formatted files output by Lambda.
 
-# AWS Lambda (my_etl_pipeline)
+### AWS Lambda (my_etl_pipeline)
 
     Trigger: Automatically invoked when new files are added to orders_json_inc/.
 
@@ -22,7 +22,7 @@ S3 (orders_json_inc) ──▶ Lambda ──▶ S3 (orders_parquet) ──▶ Gl
 
     Permissions: IAM Role allows read/write access to the S3 bucket.
 
-# AWS Glue Setup
+### AWS Glue Setup
 
     Database: abhit_db_glue
 
@@ -34,7 +34,7 @@ S3 (orders_json_inc) ──▶ Lambda ──▶ S3 (orders_parquet) ──▶ Gl
 
         Outputs metadata table under abhit_db_glue
 
-# AWS Athena
+### AWS Athena
 
     Connected to Glue Catalog.
 
